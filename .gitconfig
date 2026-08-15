@@ -1,0 +1,13 @@
+[safe]
+	directory = /storage/emulated/0/Download/FocusLock/FocusLock
+	directory = /storage/emulated/0/Download/FocusLock/FocusLock
+	directory = /storage/emulated/0/Download/FocusLock/FocusLock
+[user]
+	email = kersar82-cell@gmail.com
+	name = kersar82-cell
+[credential "https://github.com"]
+	helper = 
+	helper = !/data/data/com.termux/files/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/data/data/com.termux/files/usr/bin/gh auth git-credential
