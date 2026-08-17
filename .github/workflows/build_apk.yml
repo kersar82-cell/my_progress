@@ -12,6 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Auto Find and Setup Project
+        run: |
+          if [ -f "my_progress.zip" ]; then
+            unzip -o my_progress.zip
+          fi
+          PUBSPEC_PATH=$(find . -name "pubspec.yaml" -not -path "*/.*" | head -n 1)
+          if [ -n "$PUBSPEC_PATH" ]; then
+            DIR=$(dirname "$PUBSPEC_PATH")
+            if [ "$DIR" != "." ]; then
+              cp -rf $DIR/* .
+            fi
+          fi
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -35,3 +48,4 @@ jobs:
         with:
           name: my-progress-app
           path: build/app/outputs/flutter-apk/app-release.apk
+          
