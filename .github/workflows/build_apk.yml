@@ -43,8 +43,13 @@ jobs:
             flutter create . --platforms=android
           fi
 
-      - name: Install Dependencies
-        run: flutter pub get
+      - name: Install Dependencies & Fix Code Errors
+        run: |
+          flutter pub get
+          # Fix Uint8List type error in encryption_service.dart
+          sed -i 's/enc.Key(Uint8ListFromDigest(digest))/enc.Key(Uint8List.fromList(Uint8ListFromDigest(digest)))/g' lib/services/encryption_service.dart || true
+          # Generate Hive adapter (.g.dart) files
+          dart run build_runner build --delete-conflicting-outputs || true
 
       - name: Build APK
         run: flutter build apk --release
