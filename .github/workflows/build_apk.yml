@@ -1,4 +1,4 @@
-name: Build Flutter APK
+Name: Build Flutter APK
 
 on:
   push:
@@ -43,14 +43,16 @@ jobs:
             flutter create . --platforms=android
           fi
 
-          cat << 'EOF' >> android/build.gradle.kts
+          # Force compileSdkVersion 36 for all modules in android/build.gradle
+          cat << 'EOF' >> android/build.gradle
 
           subprojects {
-              plugins.withId("com.android.library") {
-                  (extensions.findByName("android") as? com.android.build.gradle.BaseExtension)?.compileSdkVersion(36)
-              }
-              plugins.withId("com.android.application") {
-                  (extensions.findByName("android") as? com.android.build.gradle.BaseExtension)?.compileSdkVersion(36)
+              afterEvaluate { project ->
+                  if (project.hasProperty('android')) {
+                      project.android {
+                          compileSdkVersion 36
+                      }
+                  }
               }
           }
           EOF
